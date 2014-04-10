@@ -1,4 +1,4 @@
-Install Beluga and BelugaDemo environement
+Install Beluga and BelugaDemo environment
 ==========================================
 
 Prerequest
@@ -18,16 +18,20 @@ Install
 
 2.  Clone it on your desktop
 
-3.  Update haxelib with: *haxelib selfupdate*
+3.  If you are on windows you need to Update haxelib
+  
+	-	type: *haxelib selfupdate*
+  
+  -	then as requested by the previous command: *haxe update.xml*
 
-4.  Set your Beluga folder has local library with: *haxelib dev PATH_TO_BELUGA_FOLDER*
+4.	Set your Beluga folder has local library with: *haxelib dev PATH_TO_BELUGA_FOLDER*
 
-5.  Now you should be able to compil belugaDemo with: *haxe BelugaDemo.xml*
+6.  Now you should be able to compil BelugaDemo with: *haxe BelugaDemo.xml*
 
-6.  Paste the .htaccess file to the build folder (/bin).
+7.  Paste the .htaccess file to the build folder (/bin).
 
-7.  Copy the content of the /bin folder in your document root apache folder
+8.  Copy the content of the /bin folder in your document root apache folder
 
-8.  Create belugeDemo database in mysql (login: root, password: \*no password\*)
+9.  Create belugeDemo database in mysql (login: root, password: \*no password\*)
 
-9.  You are done !
+10.  You are done !
