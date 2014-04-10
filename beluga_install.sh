@@ -100,9 +100,9 @@ check_package php5-mysql
 ####################################################
 echo -e "\e[1;93mInstallation of HAXE...\e[0m"
 # Download Haxe
-wget http://www.openfl.org/files/3313/8082/9421/haxe-3.0.1-linux-installer.tar.gz
+wget http://www.openfl.org/haxe-3.1.1-linux-installer.tar.gz
 # Installation of Haxe
-tar -xvf haxe-3.0.1-linux-installer.tar.gz
+tar -xvf haxe-3.1.1-linux-installer.tar.gz
 echo "y" | ./install-haxe.sh
 # Configuration of Haxe
 haxe_lib_dir="/usr/lib/haxe"
