@@ -54,7 +54,7 @@ check_package() {
     else
 	echo -e "\e[1;91mCan\'t find $pkg_name on your system.\e[0m"
 	echo -e "\e[1;93mTry to install $pkg_name\e[0m"
-	echo "${root_password}" | sudo -S apt-get install $pkg_name --force-yes
+	echo "${root_password}" | sudo -S apt-get install $pkg_name -y
     fi
 }
 
