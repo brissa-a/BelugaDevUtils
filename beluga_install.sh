@@ -26,7 +26,7 @@ check_parameter()
 script_parameter_number=${#}
 script_name=${0}
 if [ $script_parameter_number -eq 0 ]; then
-  echo -e "${script_name} APTITUDE_PASSWORD GIT_ACCOUNT GIT_PASSWORD"
+  echo -e "${script_name} APTITUDE_PASSWORD GIT_ACCOUNT"
   exit
 fi
 
@@ -37,11 +37,6 @@ check_parameter "ROOT_PASSWORD" $root_password
 # 2nd parameter: password for GIT ACCOUNT
 git_account=${2}
 check_parameter "GIT_ACCOUNT" $git_account
-
-# 3rd parameter: password for GIT PASSWORD
-git_password=${3}
-check_parameter "GIT_PASSWORD" $git_password
-
 
 ####################################################
 # Check if a package is already installed
@@ -59,7 +54,7 @@ check_package() {
     else
 	echo -e "\e[1;91mCan\'t find $pkg_name on your system.\e[0m"
 	echo -e "\e[1;93mTry to install $pkg_name\e[0m"
-	echo "${root_password}" | sudo -S apt-get install $pkg_name -y
+	echo "${root_password}" | sudo -S apt-get install $pkg_name -force-yes
     fi
 }
 
@@ -113,7 +108,7 @@ echo "${haxe_lib_dir}/lib" | haxelib setup
 # Clean Haxe install
 echo -e "\e[1;93mClean haxe install files.\e[0m"
 rm -rf install-haxe.sh
-rm -rf haxe-3.0.1-linux-installer.tar.gz
+rm -rf haxe-3.1.1-linux-installer.tar.gz
 
 ####################################################
 # creation of DIRECTORY ARCHITECTURE
@@ -126,8 +121,6 @@ demo_dir_name="demo"
 mkdir $main_dir_name
 # Clone repositories in the $main_dir_name
 pushd $main_dir_name
-git_id="${git_account}:${git_password}"
-
 git clone https://github.com/${git_account}/Beluga.git $beluga_dir_name
 git clone https://github.com/${git_account}/BelugaDemo.git $demo_dir_name
 
@@ -137,9 +130,8 @@ git clone https://github.com/${git_account}/BelugaDemo.git $demo_dir_name
 echo -e "\e[1;93mInstallation of BELUGA...\e[0m"
 # Installation of the beluga library
 pushd $beluga_dir_name
-haxelib convertxml
-zip -r beluga.zip beluga/ haxelib.json
-haxelib local beluga.zip
+haxelib dev beluga .
+haxelib install session
 popd
 # Compilation of the demo project
 pushd $demo_dir_name
