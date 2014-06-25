@@ -18,6 +18,20 @@ check_parameter()
   fi
 }
 
+check_parameter_os_name()
+{
+  parameter_name=$1
+  parameter_value=$2
+
+  echo -n "$parameter_name: "
+  if [ "$parameter_value" != "ubuntu" -a "$parameter_value" != "debian" ]; then # Failure
+    echo -e "\e[1;91mFAIL\e[0m"
+    exit 
+  else # Success
+    echo -e "\e[1;92mOK\e[0m"
+  fi
+}
+
 ####################################################
 # initialisation
 ####################################################
@@ -26,7 +40,7 @@ check_parameter()
 script_parameter_number=${#}
 script_name=${0}
 if [ $script_parameter_number -eq 0 ]; then
-  echo -e "${script_name} APTITUDE_PASSWORD GIT_ACCOUNT"
+  echo -e "${script_name} APTITUDE_PASSWORD GIT_ACCOUNT OS_NAME"
   exit
 fi
 
@@ -37,6 +51,10 @@ check_parameter "ROOT_PASSWORD" $root_password
 # 2nd parameter: password for GIT ACCOUNT
 git_account=${2}
 check_parameter "GIT_ACCOUNT" $git_account
+
+os_name=${3}
+check_parameter "OS_NAME" $os_name
+check_parameter_os_name "OS_NAME" $os_name
 
 ####################################################
 # Check if a package is already installed
@@ -134,20 +152,20 @@ git clone https://github.com/${git_account}/Dominax.git $demo_path
 # installation of BELUGA PROJECT
 ####################################################
 echo -e "\e[1;93mInstallation of BELUGA...\e[0m"
-# Installation of the beluga library
 pushd $beluga_path
 haxelib dev beluga .
 haxelib install session
 haxelib install tink_macro
+popd
 
 pushd $beluga_test_path
+wget --output-document=config/database.xml https://raw.github.com/brissa-a/BelugaDevUtils/master/$os_name_database.xml 
 haxe BelugaTest.hxml
     pushd $beluga_www_path
     wget https://raw.github.com/brissa-a/BelugaDevUtils/master/.htaccess
     popd
 popd
 
-# Compilation of the demo project
 pushd $demo_path
 haxe dominax.hxml
     pushd $demo_www_path
@@ -168,12 +186,11 @@ apacheconf="/etc/apache2/sites-available/default"
 echo_virtual_host () {
     echo "Listen $1"
     echo "NameVirtualHost *:$1"
-    echo "<VirtualHost *>"
+    echo "<VirtualHost *:$1>"
     echo "    DocumentRoot $2"
     echo "</VirtualHost>"
 }
 
-echo "NameVirtualHost *" >> $apacheconf
 echo_virtual_host "81" "$beluga_www_path" >> $apacheconf
 echo_virtual_host "82" "$demo_www_path" >> $apacheconf
 
