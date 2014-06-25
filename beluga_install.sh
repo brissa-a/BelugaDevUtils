@@ -79,7 +79,7 @@ check_package() {
 if [ "$parameter_value" == "debian" ]; then
     echo "deb http://ftp.debian.org/debian sid main" >> /etc/apt/sources.list
     apt-get update
-    apt-get -t sid install libc6 libc6-dev libc6-dbg
+    apt-get -t -y sid install libc6 libc6-dev libc6-dbg
 fi
 
 ####################################################
@@ -205,12 +205,14 @@ echo_virtual_host "82" "$demo_www_path" >> $apacheconf
 a2enmod rewrite
 apachectl restart
 
+chown www-data -R $main_path
+
 echo -e "\e[1;93mConfiguring database\e[0m" 
 ####################################################
 # Configuration MYSQL
 ####################################################
 if [ "$parameter_value" == "debian" ]; then
-    mysql -p$root_password << EOF
-    CREATE DATABASE belugaDemo;
-    EOF
+mysql -p$root_password << EOF
+CREATE DATABASE belugaDemo;
+EOF
 fi
