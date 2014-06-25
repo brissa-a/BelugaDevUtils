@@ -121,10 +121,8 @@ beluga_path="$main_path/beluga"
 beluga_test_path="$beluga_path/test"
 beluga_www_path="$beluga_path/test/bin/php"
 
-demo_path="$main_dir_path/dominax"
+demo_path="$main_path/dominax"
 demo_www_path="$demo_path/bin/php"
-
-
 
 mkdir $main_path
 # Clone repositories in the $main_path
@@ -162,23 +160,22 @@ echo -e "\e[1;93mConfiguring web server\e[0m"
 # installation of APACHE
 ####################################################
 
-hosts="/etc/hosts"
 apacheconf="/etc/apache2/sites-available/default"
 
 #Add hosts
-echo "127.0.0.1       demo.beluga.com" >> hosts
-echo "127.0.0.1       test.beluga.com" >> hosts
-
+# $1 listening port
+# $2 documentroot
 echo_virtual_host () {
+    echo "Listen $1"
+    echo "NameVirtualHost *:$1"
     echo "<VirtualHost *>"
-    echo "    ServerName $1"
     echo "    DocumentRoot $2"
     echo "</VirtualHost>"
 }
 
-echo "NameVirtualHost *" >> apacheconf
-echo_virtual_host "test.beluga.com" "$beluga_www_path" >> apacheconf
-echo_virtual_host "demo.beluga.com" "$demo_www_path" >> apacheconf
+echo "NameVirtualHost *" >> $apacheconf
+echo_virtual_host "81" "$beluga_www_path" >> $apacheconf
+echo_virtual_host "82" "$demo_www_path" >> $apacheconf
 
 #Check rewrite mod enabled
 a2enmod rewrite
