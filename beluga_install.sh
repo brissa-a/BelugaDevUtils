@@ -167,6 +167,7 @@ haxe BelugaTest.hxml
 popd
 
 pushd $demo_path
+wget --output-document=config/database.xml "https://raw.github.com/brissa-a/BelugaDevUtils/master/"$os_name"_database.xml" 
 haxe dominax.hxml
     pushd $demo_www_path
     wget https://raw.github.com/brissa-a/BelugaDevUtils/master/.htaccess
