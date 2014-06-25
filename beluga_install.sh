@@ -204,3 +204,13 @@ echo_virtual_host "82" "$demo_www_path" >> $apacheconf
 #Check rewrite mod enabled
 a2enmod rewrite
 apachectl restart
+
+echo -e "\e[1;93mConfiguring database\e[0m" 
+####################################################
+# Configuration MYSQL
+####################################################
+if [ "$parameter_value" == "debian" ]; then
+    mysql -p$root_password << EOF
+    CREATE DATABASE belugaDemo;
+    EOF
+fi
