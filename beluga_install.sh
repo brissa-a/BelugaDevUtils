@@ -159,7 +159,7 @@ haxelib install tink_macro
 popd
 
 pushd $beluga_test_path
-wget --output-document=config/database.xml https://raw.github.com/brissa-a/BelugaDevUtils/master/$os_name_database.xml 
+wget --output-document=config/database.xml "https://raw.github.com/brissa-a/BelugaDevUtils/master/"$os_name"_database.xml" 
 haxe BelugaTest.hxml
     pushd $beluga_www_path
     wget https://raw.github.com/brissa-a/BelugaDevUtils/master/.htaccess
